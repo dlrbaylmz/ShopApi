@@ -1,9 +1,10 @@
 import axios from 'axios';
+import Config from 'react-native-config';
 
 export const getProductDetails = id => {
-  return axios.get(`https://fakestoreapi.com/products/${id}`);
+  return axios.get(`${Config.API_URL}/${id}`);
 };
 
 export const getProducts = () => {
-  return axios.get('https://fakestoreapi.com/products');
+  return axios.get(Config.API_URL);
 };

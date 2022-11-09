@@ -15,9 +15,9 @@ const App = () => {
    <NavigationContainer>
       <Stack.Navigator>
          <Stack.Screen name='SHOPPİNG' component={Products} 
-         options={{title: "DiySHOP", headerStyle:{backgroundColor:'#b2b2b2'} , headerTitleStyle:{color: 'white'}, }}/>
+         options={{title: "DiySHOP", headerStyle:{backgroundColor:'#C3B091'} , headerTitleStyle:{color: 'white'}, }}/>
          <Stack.Screen name='DETAİLS' component={Details} 
-          options={{title: "DiyDETAİLS", headerStyle:{backgroundColor:'#cdcdcd'} , headerTitleStyle:{color: 'white'}, headerTintColor:'white'}}/>
+          options={{title: "DiyDETAİLS", headerStyle:{backgroundColor:'#C3B091'} , headerTitleStyle:{color: 'white'}, headerTintColor:'white'}}/>
       </Stack.Navigator>
    </NavigationContainer>
   )

@@ -20,17 +20,20 @@ body_container:{
 },
 title:{
     fontWeight:'bold',
+    fontSize:30,
 
 },
 desc:{
     fontStyle:'italic',
     marginVertical:5,
+    fontSize:16,
 
 },
 price:{
     fontWeight:'bold',
-    fontSize:25,
+    fontSize:21,
     textAlign:'right',
+    marginTop:20,
 
 },
 category:{
@@ -39,6 +42,21 @@ category:{
     fontStyle: 'italic',
 
 },
+button_container:{
+    flex:1,
+    backgroundColor: '#a08e70',
+    padding:10,
+    alignItems:'center',
+    borderRadius:10,
+    marginTop:40
+  },
+
+  button_title:{
+    flex:1,
+    fontSize:20,
+    fontWeight:'bold',
+    color: 'white',
+  },
 
 });
 

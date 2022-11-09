@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Text, Image, View, ScrollView} from 'react-native';
+import {Text, Image, View, ScrollView,TouchableOpacity, Alert} from 'react-native';
 import {getProductDetails} from '../../apiCalls';
 import styles from './Details.style';
 
@@ -25,6 +25,11 @@ const Details = ({route}) => {
           <Text style={styles.category}>Category: {data?.category}</Text>
           <Text style={styles.category}>Rating: {data?.rating?.rate}</Text>
           <Text style={styles.price}>Price: {data?.price}00 ₺</Text>
+          <TouchableOpacity style={styles.button_container} 
+                  onPress={() => Alert.alert('Sepete eklendi.')} >
+                  <Text style={styles.button_title}>
+                  Satın al </Text>
+              </TouchableOpacity>
         </View>
       </View>
     </ScrollView>
