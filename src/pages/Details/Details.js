@@ -1,19 +1,38 @@
 import React, {useEffect, useState} from 'react';
-import {Text, Image, View, ScrollView,TouchableOpacity, Alert} from 'react-native';
+import {Text, Image, View, ScrollView,TouchableOpacity, Alert,ActivityIndicator} from 'react-native';
 import {getProductDetails} from '../../apiCalls';
 import styles from './Details.style';
 
 const Details = ({route}) => {
   const {id} = route.params;
   const [data, setData] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     getProductDetails(id)
       .then(res => {
         setData(res.data);
+        setLoading(false);
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        setError(err.message);
+        setLoading(false);
+      });
   }, []);
+
+  if(loading){
+    return <ActivityIndicator 
+    style={{textAlign:'center', textTransform:'uppercase', marginTop:350}}
+     size='large'/>
+    }
+
+  if(error){
+    return <Text 
+    style={{color:'red', fontWeight:'bold',textAlign:'center', textTransform:'uppercase', marginTop:350}} 
+    >{error}</Text>
+  }
+
 
   return (
     <ScrollView>
