@@ -4,6 +4,9 @@ import {getProductDetails} from '../../apiCalls';
 import styles from './Details.style';
 
 const Details = ({route}) => {
+  //stack yapısının altındaki route ile parametre erişimi 
+  // params: Metotların değişken sayıda parametre almasına imkan veren bir anahtar kelimedir
+  //route:erişim sağlayarak yönetilebilirliği ve erişim kolaylığı sağlamasıdır.
   const {id} = route.params;
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
@@ -27,7 +30,7 @@ const Details = ({route}) => {
      size='large'/>
     }
 
-  if(error){
+  if(error){ //denemek için apicallsda axios.gette configi boz
     return <Text 
     style={{color:'red', fontWeight:'bold',textAlign:'center', textTransform:'uppercase', marginTop:350}} 
     >{error}</Text>

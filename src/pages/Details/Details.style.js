@@ -8,8 +8,8 @@ container:{
     flex:1,
 },
 image:{
-    width: deviceSize.width,
-    height: deviceSize.height/3,
+    width: deviceSize.width, //ekranın yatay tamamını kaplar
+    height: deviceSize.height/3, //ekranın boydan 3de 1 in kaplar
     resizeMode:'contain',
     backgroundColor:'white',
 

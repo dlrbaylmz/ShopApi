@@ -13,7 +13,7 @@ export default StyleSheet.create({
     image:{
         width:100,
         minHeight:100,
-        resizeMode: 'contain',
+        resizeMode: 'contain', //görselin orjinal boyutunu korur
     
     },
     body_container:{
