@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useEffect, useState } from 'react';
 import { Text, Image, View, ScrollView, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
 import { getProductDetails } from '../../apiCalls';
@@ -12,16 +13,26 @@ const Details = ({ route }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    getProductDetails(id)
-      .then(res => {
+  useEffect(async() => {
+    async function getData() {
+    let item = await AsyncStorage.getItem(id)
+    if(item==null){
+      getProductDetails(id)
+      .then(async res => {
         setData(res.data);
         setLoading(false);
+        await AsyncStorage.setItem(id,JSON.stringify(res.data))
       })
       .catch(err => {
         setError(err.message);
         setLoading(false);
       });
+    }
+    else {
+      setData(item)
+    }
+    }
+    getData();
   }, []);
 
   if (loading) {

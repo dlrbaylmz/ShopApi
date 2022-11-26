@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, RefreshControl, Text } from 'react-native';
 import ProductCard from '../../components/ProductCard/ProductCard';
-import { getProducts } from '../../apiCalls';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getProducts} from '../../apiCalls';
 
 
 const Products = ({ navigation }) => {
@@ -33,9 +32,7 @@ const Products = ({ navigation }) => {
   }, []);
 
   //navigation metodu idli ürün
-  const handleProductSelect = id => {
-    AsyncStorage.setItem('@customer', JSON.stringify({ id }));
-    console.log(id);
+  const handleProductSelect =id => {
     navigation.navigate('DETAİLS', { id }); //onselect seçildiği an detaylar sayfasına git
   };
 
@@ -67,14 +64,3 @@ const Products = ({ navigation }) => {
 
 
 export default Products;
-
-const custom = {
-  id: 1,
-  title: "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
-  price: 109.95,
-  description: "Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday",
-  category: "men's clothing",
-  image: "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg",
-  rating: { rate: 3.9, count: 120 }
-
-};
