@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Text,
   Image,
@@ -9,51 +9,67 @@ import {
   Alert,
   ActivityIndicator,
 } from 'react-native';
-import {getProductDetails} from '../../apiCalls';
+import { getProductDetails } from '../../apiCalls';
 import styles from './Details.style';
 
-const Details = ({route}) => {
+const Details = ({ route }) => {
   //stack yapısının altındaki route ile parametre erişimi
   // params: Metotların değişken sayıda parametre almasına imkan veren bir anahtar kelimedir
   //route:erişim sağlayarak yönetilebilirliği ve erişim kolaylığı sağlamasıdır.
-  const {id} = route.params;
+  const { id } = route.params;
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // useEffectte getData fonksiyonunu çağırıyoruz.
-    getData();
+    // useEffectte saveData fonksiyonunu çağırıyoruz.
+    saveData();
   }, []);
 
-  async function getData() {
-    let item = await AsyncStorage.getItem(`${id}+p`);
+
+  const saveData = async (key) => {
+    key = (`${id}+p`);
+    let item = await AsyncStorage.getItem(key);
     // önce AsyncStorage'den item çekiyoruz.
     if (item == null) {
       // null ise gidip istek atıyoruz.
       getProductDetails(id)
-        .then(async res => {
-          console.log('resdata ', res.data);
-          setData(res.data);
-          setLoading(false);
-          await AsyncStorage.setItem(`${id}+p`, JSON.stringify(res.data));
-          // istekten dönen res datayı AsyncStorage'e kaydedriyoruz.
-          // bu arada `${id}+p` yapısını öylesine koydum id kısmına dokunmadan istediğin şeyi verebilirsin. mesela `${id}+product` misal.
-        })
-        .catch(err => {
-          setError(err.message);
-          setLoading(false);
-        });
-    } else {
+      .then (async res => {
+        console.log('resdata ',res.data );
+         // veriyi JSON formatında string'e dönüştürelim
+        const jsonValue = JSON.stringify(res.data);
+        // expiration time'ını ayarlayalım
+        const expiration = Date.now() + 30 * 1000; // 30 sn 
+        setData(res.data);
+        setLoading(false);
+        await AsyncStorage.setItem(key,jsonValue,expiration);
+        // istekten dönen res datayı AsyncStorage'e kaydediyoruz.
+       
+      })
+      .catch (err => {
+        setError(err.message);
+        setLoading(false);
+      });
+    }else {
       // eğer item null değilse AsyncStorage' de vardır demek.
       let nData = JSON.parse(item);
-      // kaydederken stringe çeviriyoruz ya stringify ile çekerken de o stringi geri objeye parse ile dönüştürüyoruz.
-      console.log('nData ', typeof nData, nData);
+       // stringify ile çekerken stringi geri objeye parse ile dönüştürüyoruz.
       setLoading(false);
       // tekrar objeye dönüştürdüğümüz datayı setDataya veriyoruz.
       setData(nData);
+      console.log('nData ', nData);
+    
+    if (nData.expiration < Date.now()) {
+      // expiration time geçmiş ise veriyi silip tekrardan
+      await AsyncStorage.removeItem(nData);
+      return saveData();
     }
-  }
+    else {
+      // expiration time geçmemiş ise veriyi geri dönelim
+      return nData;
+    }
+    
+  }}
 
   if (loading) {
     return (
@@ -87,7 +103,7 @@ const Details = ({route}) => {
   return (
     <ScrollView>
       <View style={styles.container}>
-        <Image style={styles.image} source={{uri: data.image}} />
+        <Image style={styles.image} source={{ uri: data.image }} />
         <View style={styles.body_container}>
           <Text style={styles.title}>{data?.title}</Text>
           <Text style={styles.desc}>{data?.description}</Text>
